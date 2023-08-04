@@ -21,7 +21,18 @@
 
   margin: 0;
 }
+#container hr {
+  background-color: red;
+}
 
 #container a {
   text-decoration: none;
+}
+
+.continueButton {
+  background-color: yellow !important;
+}
+
+.cancleButton {
+  background-color: red !important;
 }
