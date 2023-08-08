@@ -1,6 +1,7 @@
+<common-header></common-header>
 <div id="container">
   <hr>
-  <strong>{{ name }}</strong>
+  <strong>Registration</strong>
   <hr>
   <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
     <ion-grid>
@@ -10,71 +11,92 @@
             <ion-label position="floating" color="primary">Aadhar Number</ion-label>
             <ion-input type="number" class="form-control" formControlName="aadharNumber"></ion-input>
           </ion-item>
-          <div *ngIf="ionicForm.controls?.aadharNumber?.touched && ionicForm.controls?.aadharNumber?.invalid">
-            <div class="error ion-padding" *ngIf="errorControl.aadharNumber?.errors?.required">
-              <ion-text color="danger">Aadhar number is required.</ion-text>
-            </div>
-            <div class="error ion-padding" *ngIf="errorControl.aadharNumber?.errors?.pattern">
-              <ion-text color="danger">Only numerical values allowed.</ion-text>    
-            </div>
-            <div class="error ion-padding" *ngIf="errorControl.aadharNumber?.errors?.minlength || errorControl.aadharNumber?.errors?.maxlength">
-              <ion-text color="danger">Length should be 16 digits</ion-text>
-            </div>
-          </div>
+          <ng-container *ngIf="ionicForm.controls?.aadharNumber?.touched && ionicForm.controls?.aadharNumber?.invalid">
+            <ng-container class="" *ngIf="errorControl.aadharNumber?.errors?.required">
+              <ion-note color="danger">Aadhar number is required.</ion-note>
+            </ng-container>
+            <ng-container class="" *ngIf="errorControl.aadharNumber?.errors?.min || errorControl.aadharNumber?.errors?.max">
+              <ion-note color="danger">Length should be 12 digits</ion-note>
+            </ng-container>
+          </ng-container>
         </ion-col>
         <ion-col size="6" size-md="6" size-xs="12">
           <ion-item>
             <ion-label position="stacked" color="primary">DOB</ion-label>
-            <ion-input type="date" class="form-control" required></ion-input>
+            <ion-input type="date" class="form-control" [max]="currentDate" required></ion-input>
           </ion-item>
         </ion-col>
         <ion-col size="6" size-md="6" size-xs="12">
           <ion-item>
             <ion-label position="floating" color="primary">UHID No.</ion-label>
-            <ion-input type="text" class="form-control" required></ion-input>
+            <ion-input type="text" class="form-control" formControlName="uhidNo"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
             <ion-label position="floating" color="primary">Gender</ion-label>
-            <ion-select>
+            <ion-select formControlName="gender">
               <ion-select-option value="female">Female</ion-select-option>
               <ion-select-option value="male">Male</ion-select-option>
               <ion-select-option value="others">Others</ion-select-option>
             </ion-select>
           </ion-item>
+          <ng-container *ngIf="ionicForm.controls?.gender?.touched && ionicForm.controls?.gender?.invalid">
+            <ng-container class="" *ngIf="errorControl.gender?.errors?.required">
+              <ion-note color="danger">Select a Gender</ion-note>
+            </ng-container>
+          </ng-container>
         </ion-col>
         <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
-            <ion-label position="floating" color="primary">Patient Name</ion-label>
-            <ion-input type="text" class="form-control" required></ion-input>
+            <ion-label position="floating" color="primary" >Patient Name</ion-label>
+            <ion-input type="text" class="form-control" required formControlName="patientName"></ion-input>
           </ion-item>
+            <ng-container *ngIf="ionicForm.controls?.patientName?.touched && ionicForm.controls?.patientName?.invalid">
+              <ng-container class="" *ngIf="errorControl.patientName?.errors?.required">
+                <ion-note color="danger">Patient name is required.</ion-note>
+              </ng-container>
+              <ng-container class="" *ngIf="errorControl.patientName?.errors?.maxlength">
+                <ion-note color="danger">Patient name should be less than 100 character</ion-note>
+              </ng-container>
+            </ng-container>
         </ion-col>
         <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
             <ion-label position="floating" color="primary">Mobile No.</ion-label>
             <ion-input type="number" class="form-control" required formControlName="mobile"></ion-input>
           </ion-item>
-          <div *ngIf="ionicForm.controls?.mobile?.touched && ionicForm.controls?.mobile?.invalid">
-            <div class="error ion-padding" *ngIf="errorControl.mobile?.errors?.required">
-              <ion-text color="danger">Mobile number is required.</ion-text>
-            </div>
-            <div class="error ion-padding" *ngIf="errorControl.mobile?.errors?.pattern">
-              <ion-text color="danger">Only numerical values allowed.</ion-text>
-            </div>
-            <div class="error ion-padding" *ngIf="errorControl.mobile?.errors?.minlength || errorControl.mobile?.errors?.maxlength">
-              <ion-text color="danger">Length should be 10 digits</ion-text>
-            </div>
-          </div>
+          <ng-container *ngIf="ionicForm.controls?.mobile?.touched && ionicForm.controls?.mobile?.invalid">
+            <ng-container class="" *ngIf="errorControl.mobile?.errors?.required">
+              <ion-note color="danger">Mobile number is required.</ion-note>
+            </ng-container>
+            <ng-container class="" *ngIf="errorControl.mobile?.errors?.min || errorControl.mobile?.errors?.max">
+              <ion-note color="danger">Length should be 10 digits</ion-note>
+            </ng-container>
+          </ng-container>
         </ion-col>
         <hr>
-        <ion-col size="6" size-md="12" size-xs="12"> <ion-item>
+        <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
             <ion-label position="floating" color="primary">Address</ion-label>
             <ion-textarea placeholder=""></ion-textarea>
           </ion-item>
         </ion-col>
+        <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
+          <ion-label position="floating" color="primary" (focus)="trigger()">Photo</ion-label>
+            <ion-input class="custom-file-input" id="upload_file" accept="image/*" type="file" #file (change)="onFileChange(file)"></ion-input>
+          </ion-item>
+
+      </ion-col>
         <ion-col size="6" size-md="4" size-xs="12">
           <ion-item>
-            <ion-label position="floating" color="primary">PinCode</ion-label>
+            <ion-label position="floating" color="primary" >Pin Code</ion-label>
             <ion-input type="number" class="form-control" required></ion-input>
           </ion-item>
+          <ng-container *ngIf="ionicForm.controls?.pincode?.touched && ionicForm.controls?.pincode?.invalid">
+            <ng-container class="" *ngIf="errorControl.pincode?.errors?.required">
+              <ion-note color="danger">Pin Code is required.</ion-note>
+            </ng-container>
+            <ng-container class="" *ngIf="errorControl.pincode?.errors?.min || errorControl.pincode?.errors?.max">
+              <ion-note color="danger">Length should be 6 digits</ion-note>
+            </ng-container>
+          </ng-container>
         </ion-col>
         <ion-col size="6" size-md="4" size-xs="12">
           <ion-item>
