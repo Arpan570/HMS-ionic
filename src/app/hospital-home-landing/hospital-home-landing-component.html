@@ -1,0 +1,81 @@
+
+<common-header></common-header>
+<ion-grid>
+  <ion-row>
+    <ion-col size="2" size-md="2" size-xs="12">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    </ion-col>
+    <ion-col size="7" size-md="8" size-xs="12">
+      {{hospitalName}}<br>
+      {{hospitalAddress}}<br>
+      {{hospitalId}}<br>
+    </ion-col>
+    <ion-col size="3" size-md="2" size-xs="12">
+      {{currentDate}}
+    </ion-col>
+  </ion-row>
+  
+  <hr>
+
+  <ion-row>
+    <ion-col size="6" size-md="3" size-xs="12">
+      <ion-card (click)="navigateFromHomePage('registration')">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-card-header>
+          <ion-card-title>Registration</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Click on this tab to register a new patient along with all details.
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!-- arpan_comment This image and card description will be updated -->
+    <ion-col size="6" size-md="3" size-xs="12">
+      <ion-card>
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-card-header>
+          <ion-card-title>Patients</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Click on this tab to get list of all patients registered here
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!-- arpan_comment This image and card description will be updated -->
+
+    <ion-col size="6" size-md="3" size-xs="12">
+      <ion-card>
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-card-header>
+          <ion-card-title>Discharge</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Click on this tab to register a new patient to complete the discharge process.
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!-- arpan_comment This image and card description will be updated -->
+
+    <ion-col size="6" size-md="3" size-xs="12">
+      <ion-card>
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-card-header>
+          <ion-card-title>Records</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Click on this tab to get list of all records of patients here
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!-- arpan_comment This image and card description will be updated -->
+  </ion-row>
+  <hr>
+  <ion-row>
+  <ion-col size="2" size-md="2" size-xs="0">
+    <br>
+  </ion-col>
+  <ion-col size="2" size-md="10" size-xs="12">
+    Record represents all recents patients details.
+  </ion-col>
+</ion-row>
+</ion-grid>
