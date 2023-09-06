@@ -1,143 +1,233 @@
+<form [formGroup]="personalDetailsForm" (ngSubmit)="submitForm()" novalidate>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" size-md="6" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">Aadhar Number - </ion-label>
+          <ion-input type="number" class="form-control" formControlName="aadharNumber"></ion-input>
+        </ion-item>
+        <ng-container
+          *ngIf="personalDetailsForm.controls?.aadharNumber?.touched && personalDetailsForm.controls?.aadharNumber?.invalid">
+          <ng-container class="" *ngIf="errorControl.aadharNumber?.errors?.required">
+            <ion-text color="danger" class="error-message">Aadhar number is required.</ion-text>
+          </ng-container>
+          <ng-container class=""
+            *ngIf="errorControl.aadharNumber?.errors?.min || errorControl.aadharNumber?.errors?.max">
+            <ion-text color="danger" class="error-message">Length should be 12 digits</ion-text>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+      <ion-col size="6" size-md="6" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">Date of Birth - </ion-label>
+          <ion-input id="dateOfBirth" type="date" class="form-control" [max]="currentDate"
+            formControlName="dateOfBirth"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" size-md="6" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">UHID Number - </ion-label>
+          <ion-input type="text" class="form-control" formControlName="uhidNo"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
+          <ion-label position="stacked" color="primary">Gender - </ion-label>
+          <ion-select formControlName="gender">
+            <ng-container *ngFor="let el of genders">
+              <ion-select-option value="{{el.name}}">{{el.value}}</ion-select-option>
+            </ng-container>
+          </ion-select>
+        </ion-item>
+        <ng-container
+          *ngIf="personalDetailsForm.controls?.gender?.touched && personalDetailsForm.controls?.gender?.invalid">
+          <ng-container class="" *ngIf="errorControl.gender?.errors?.required">
+            <ion-text color="danger" class="error-message">Select a Gender</ion-text>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+      <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
+          <ion-label position="stacked" color="primary">Patient Name - </ion-label>
+          <ion-input type="text" class="form-control" required formControlName="patientName"></ion-input>
+        </ion-item>
+        <ng-container
+          *ngIf="personalDetailsForm.controls?.patientName?.touched && personalDetailsForm.controls?.patientName?.invalid">
+          <ng-container class="" *ngIf="errorControl.patientName?.errors?.required">
+            <ion-text color="danger" class="error-message">Patient name is required.</ion-text>
+          </ng-container>
+          <ng-container class="" *ngIf="errorControl.patientName?.errors?.maxlength">
+            <ion-text color="danger" class="error-message">Patient name should be less than 100 character</ion-text>
+          </ng-container>
+          <ng-container class="" *ngIf="errorControl.patientName?.errors?.pattern">
+            <ion-text color="danger" class="error-message">Invalid Patient name</ion-text>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+      <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
+          <ion-label position="stacked" color="primary">Mobile Number - </ion-label>
+          <ion-input type="number" class="form-control" required formControlName="mobile"></ion-input>
+        </ion-item>
+        <ng-container
+          *ngIf="personalDetailsForm.controls?.mobile?.touched && personalDetailsForm.controls?.mobile?.invalid">
+          <ng-container class="" *ngIf="errorControl.mobile?.errors?.required">
+            <ion-text color="danger" class="error-message"> Mobile number is required.</ion-text>
+          </ng-container>
+          <ng-container class="" *ngIf="errorControl.mobile?.errors?.min || errorControl.mobile?.errors?.max">
+            <ion-text color="danger" class="error-message"> Length should be 10 digits</ion-text>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+      <hr>
+      <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
+          <ion-label position="stacked" color="primary">Address - </ion-label>
+          <ion-input type="text" rows="" placeholder="" formControlName="address"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" size-md="6" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">Photo - </ion-label>
+          <input id="imageInput" type="file" accept="image/*" (change)="onFileChange($event)">
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" size-md="4" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">Pin Code - </ion-label>
+          <ion-input type="number" class="form-control" required formControlName="pincode" autocomplete="false"
+            (change)="updateStateDistrict()"></ion-input>
+        </ion-item>
+        <ng-container
+          *ngIf="personalDetailsForm.controls?.pincode?.touched && personalDetailsForm.controls?.pincode?.invalid">
+          <ng-container class="error ion-padding" *ngIf="errorControl.pincode?.errors?.required">
+            <ion-text color="danger" class="error-message">Pin Code is required.</ion-text>
+          </ng-container>
+          <ng-container class="error ion-padding"
+            *ngIf="errorControl.pincode?.errors?.min || errorControl.pincode?.errors?.max">
+            <ion-text color="danger" class="error-message">Length should be 6 digits</ion-text>
+          </ng-container>
+          <ng-container class="error ion-padding"
+            *ngIf="errorControl.pincode?.errors?.incorrect">
+            <ion-text color="danger" class="error-message">Invalid Pin Code</ion-text>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+      <ion-col size="6" size-md="4" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">District - </ion-label>
+          <ion-input type="text" class="form-control" required formControlName="district"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" size-md="4" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">State - </ion-label>
+          <ion-input type="text" class="form-control" formControlName="state"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3" size-md="3" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary" (click)="toggleReferralDropdown(true)">Referral - </ion-label>
+          {{personalDetailsForm.controls.referral.value}}
+        </ion-item>
+      </ion-col>
+      <ion-col size="3" size-md="3" size-xs="12">
+        <ion-item>
+          <ion-label position="stacked" color="primary">Email (Optional) - </ion-label>
+          <ion-input type="email" class="form-control" formControlName="email"></ion-input>
+        </ion-item>
+        <ng-container
+          *ngIf="personalDetailsForm.controls?.email?.touched && personalDetailsForm.controls?.email?.invalid">
+          <ng-container class="error ion-padding" *ngIf="errorControl.email?.errors?.pattern">
+            <ion-text color="danger" class="error-message"> Enter Valid Email.</ion-text>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+      <ion-col size="12" size-md="3" size-xs="12">
+        <ion-button color="warning" shape="round" type="submit">Continue</ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="3" size-xs="12">
+        <ion-button color="danger" shape="round" (click)="navigateToHomePage()">Cancle</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
 
-    <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="6" size-md="6" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary">Aadhar Number</ion-label>
-              <ion-input type="number" class="form-control" formControlName="aadharNumber"></ion-input>
-            </ion-item>
-            <ng-container *ngIf="ionicForm.controls?.aadharNumber?.touched && ionicForm.controls?.aadharNumber?.invalid">
-              <ng-container class="" *ngIf="errorControl.aadharNumber?.errors?.required">
-                <ion-note color="danger">Aadhar number is required.</ion-note>
-              </ng-container>
-              <ng-container class="" *ngIf="errorControl.aadharNumber?.errors?.min || errorControl.aadharNumber?.errors?.max">
-                <ion-note color="danger">Length should be 12 digits</ion-note>
-              </ng-container>
-            </ng-container>
-          </ion-col>
-          <ion-col size="6" size-md="6" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary">DOB</ion-label>
-              <ion-input type="date" class="form-control" [max]="currentDate" required></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6" size-md="6" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary">UHID No.</ion-label>
-              <ion-input type="text" class="form-control" formControlName="uhidNo"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
-              <ion-label position="stacked" color="primary">Gender</ion-label>
-              <ion-select formControlName="gender">
-                <ion-select-option value="female">Female</ion-select-option>
-                <ion-select-option value="male">Male</ion-select-option>
-                <ion-select-option value="others">Others</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ng-container *ngIf="ionicForm.controls?.gender?.touched && ionicForm.controls?.gender?.invalid">
-              <ng-container class="" *ngIf="errorControl.gender?.errors?.required">
-                <ion-note color="danger">Select a Gender</ion-note>
-              </ng-container>
-            </ng-container>
-          </ion-col>
-          <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
-              <ion-label position="stacked" color="primary" >Patient Name</ion-label>
-              <ion-input type="text" class="form-control" required formControlName="patientName"></ion-input>
-            </ion-item>
-              <ng-container *ngIf="ionicForm.controls?.patientName?.touched && ionicForm.controls?.patientName?.invalid">
-                <ng-container class="" *ngIf="errorControl.patientName?.errors?.required">
-                  <ion-note color="danger">Patient name is required.</ion-note>
-                </ng-container>
-                <ng-container class="" *ngIf="errorControl.patientName?.errors?.maxlength">
-                  <ion-note color="danger">Patient name should be less than 100 character</ion-note>
-                </ng-container>
-                <ng-container class="" *ngIf="errorControl.patientName?.errors?.pattern">
-                  <ion-note color="danger">Invalid Patient name</ion-note>
-                </ng-container>
-              </ng-container>
-          </ion-col>
-          <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
-              <ion-label position="stacked" color="primary">Mobile No.</ion-label>
-              <ion-input type="number" class="form-control" required formControlName="mobile"></ion-input>
-            </ion-item>
-            <ng-container *ngIf="ionicForm.controls?.mobile?.touched && ionicForm.controls?.mobile?.invalid">
-              <ng-container class="" *ngIf="errorControl.mobile?.errors?.required">
-                <ion-note color="danger">Mobile number is required.</ion-note>
-              </ng-container>
-              <ng-container class="" *ngIf="errorControl.mobile?.errors?.min || errorControl.mobile?.errors?.max">
-                <ion-note color="danger">Length should be 10 digits</ion-note>
-              </ng-container>
-            </ng-container>
-          </ion-col>
-          <hr>
-          <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
-              <ion-label position="stacked" color="primary">Address</ion-label>
-              <ion-input type="text" rows="" placeholder=""></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
-            <ion-label position="stacked" color="primary" (focus)="trigger()">Photo</ion-label>
-              <ion-input class="custom-file-input" id="upload_file" accept="image/*" type="file" #file (change)="onFileChange(file)"></ion-input>
-            </ion-item>
-        </ion-col>
-          <ion-col size="6" size-md="4" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary" >Pin Code</ion-label>
-              <ion-input type="number" class="form-control" required formControlName="pincode"></ion-input>
-            </ion-item>
-            <ng-container *ngIf="ionicForm.controls?.pincode?.touched && ionicForm.controls?.pincode?.invalid">
-              <ng-container class="error ion-padding" *ngIf="errorControl.pincode?.errors?.required">
-                <ion-text color="danger">Pin Code is required.</ion-text>
-              </ng-container>
-              <ng-container class="error ion-padding" *ngIf="errorControl.pincode?.errors?.min || errorControl.pincode?.errors?.max">
-                <ion-text color="danger">Length should be 6 digits</ion-text>    
-              </ng-container>
-            </ng-container>
-          </ion-col>
-          <ion-col size="6" size-md="4" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary">District</ion-label>
-              <ion-input type="text" class="form-control" required disabled></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6" size-md="4" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary">State</ion-label>
-              <ion-input type="text" class="form-control" disabled></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6" size-md="3" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary">Referral</ion-label>
-              <ion-select>
-                <ion-select-option value="ref1">Ref1</ion-select-option>
-                <ion-select-option value="ref2">Ref2</ion-select-option>
-                <ion-select-option value="ref3">Ref3</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6" size-md="3" size-xs="12">
-            <ion-item>
-              <ion-label position="stacked" color="primary">Email (Optional)</ion-label>
-              <ion-input type="email" class="form-control" formControlName="email"></ion-input>
-            </ion-item>
-            <ng-container *ngIf="ionicForm.controls?.email?.touched && ionicForm.controls?.email?.invalid">
-              <ng-container class="error ion-padding" *ngIf="errorControl.email?.errors?.required">
-                <ion-text color="danger">Email is required.</ion-text>
-              </ng-container>
-              <ng-container class="error ion-padding" *ngIf="errorControl.email?.errors?.pattern">
-                <ion-text color="danger">Enter Valid Email.</ion-text>    
-              </ng-container>
-            </ng-container>
-          </ion-col>
-          <ion-col size="6" size-md="3" size-xs="12">
-            <ion-button color="warning" shape="round" type="submit">Continue</ion-button>
-          </ion-col>
-          <ion-col size="6" size-md="3" size-xs="12">
-            <ion-button color="danger" shape="round">Cancle</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+<ion-modal [isOpen]="openWarningPopup">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Warning Message</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <p>
+        Please update all fields to proceed
+      </p>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<ion-modal [isOpen]="referralDropdown" class="my-modal-class">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Select referral</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="toggleReferralDropdown(false)">Close</ion-button>
+        </ion-buttons>    
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>Currently Selected - <b>{{personalDetailsForm.controls.referral.value}}</b></ion-item>
+      <ion-searchbar [(ngModel)]="searchReferralString" (ionInput)="searchReferral()" placeholder="Search"></ion-searchbar>
+      <ion-list class="list-height">
+        <ion-item class="ion-border" *ngFor="let referral of referrals">
+          <ion-label (click)="referralSelected(referral)">{{referral.displayValue}}</ion-label>
+        </ion-item>
+      </ion-list>
+        <ion-button color="warning" shape="round" (click)="toggleReferralDropdown(false);toggleAddReferralDropdown(true)">
+          Referral not found?
+          <ion-icon slot="end" name="add-outline"></ion-icon>
+        </ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<ion-modal [isOpen]="referralAddDropdown" class="my-modal-class">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Add Referral</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="toggleAddReferralDropdown(false)">Close</ion-button>
+        </ion-buttons>    
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <form [formGroup]="referralDetailsForm" (ngSubmit)="submitReferralForm()" novalidate>
+      <ion-item>
+        <ion-label position="stacked" color="primary">Referral Aadhar Number - </ion-label>
+        <ion-input type="number" class="form-control" formControlName="referralAadharNumber"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked" color="primary">Referral Name - </ion-label>
+        <ion-input type="text" class="form-control" formControlName="referralName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked" color="primary">Referral Mobile Number - </ion-label>
+        <ion-input type="number" class="form-control" formControlName="referralMobile"></ion-input>
+      </ion-item>
+      <ion-button color="warning" shape="round" type="submit">Add</ion-button>
     </form>
+    <ion-text *ngIf="errorMessageReferralForm"> Update all fields correctly</ion-text>
+
+    <ng-container *ngIf="showLoader">
+      <div padding class="spinnerCenter">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    </ng-container>
+    <ion-text *ngIf="showReferralAddedConfirmation"> Referral Added Successfully</ion-text>
+
+    
+  </ion-content>
+  </ng-template>
+</ion-modal>
+

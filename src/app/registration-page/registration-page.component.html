@@ -13,35 +13,32 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-segment (ionChange)="switchTab($event)" value="list">
-    <ion-segment-button value="1">
+  <ion-segment [(ngModel)]="selectedTab" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="tab_1">
       <ion-label>
         Personal Details
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button value="2">
+    <ion-segment-button value="tab_2">
       <ion-label>
         Insurance
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button value="3">
+    <ion-segment-button value="tab_3">
       <ion-label>
         Demographics
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button value="4">
-      <ion-label>
-        Registered
-      </ion-label>
-    </ion-segment-button>
   </ion-segment>
-  <ng-container *ngIf="selectedTab == 'tab_1'">
-    <personal-details></personal-details>
+  <ng-container *ngIf="selectedTabDetails == 'detail_tab_1'">
+    <personal-details (tabChangeEvent)="tabChangeFromOtherComponent($event)"
+      [tabChangedFromHeader]="tabChangedFromHeader"></personal-details>
   </ng-container>
-  <ng-container *ngIf="selectedTab == 'tab_2'">
-    <insurance-details-patient></insurance-details-patient>
+  <ng-container *ngIf="selectedTabDetails == 'detail_tab_2'">
+    <insurance-details-patient (tabChangeEvent)="tabChangeFromOtherComponent($event)"
+    [tabChangedFromHeader]="tabChangedFromHeader"></insurance-details-patient>
   </ng-container>
-  <ng-container *ngIf="selectedTab == 'tab_3'">
-    <demographics-details-patient></demographics-details-patient>
+  <ng-container *ngIf="selectedTabDetails == 'detail_tab_3'">
+    <demographics-details-patient [tabChangedFromHeader]="tabChangedFromHeader"></demographics-details-patient>
   </ng-container>
 </ion-content>

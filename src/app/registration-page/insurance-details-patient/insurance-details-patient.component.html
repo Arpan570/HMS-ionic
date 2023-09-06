@@ -1,1 +1,93 @@
-Hi, This is Insurance tab
+<patient-summary></patient-summary>
+
+<ng-container *ngIf="showLoader">
+  <div padding class="spinnerCenter">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!showLoader">
+  <form [formGroup]="patientInsuranceForm" (ngSubmit)="submitForm()" novalidate>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="12" size-xs="12"> <ion-item>
+            <ion-label position="stacked" color="primary" (click)="toggleInsuranceDropdown(true)">Select Insurance Company -</ion-label>
+            <!-- <ion-select formControlName="insuranceCompany" class="select-full-width">
+              <ng-container *ngFor="let insurance of availableInsurances">
+                <ion-select-option value="{{insurance.value}}">{{insurance.displayValue}}</ion-select-option>
+              </ng-container>
+            </ion-select> -->
+            
+          </ion-item>
+          <ng-container
+            *ngIf="patientInsuranceForm.controls?.insuranceCompany?.touched && patientInsuranceForm.controls?.insuranceCompany?.invalid">
+            <ng-container class="" *ngIf="errorControl.insuranceCompany?.errors?.required">
+              <ion-text color="danger" class="error-message">Select an Insurance Company</ion-text>
+            </ng-container>
+          </ng-container>
+        </ion-col>
+        <ion-col size="12" size-md="12" size-xs="12" *ngIf="insuranceSelectionDone">
+          <ion-item>
+            <ion-label position="stacked" color="primary">{{patientInsuranceForm.controls.insuranceCompany.value}} - </ion-label>
+            <ion-textarea type="text" class="form-control" required formControlName="insuranceNumber" aria-placeholder="Enter Insurance Number"></ion-textarea>
+          </ion-item>
+          <ng-container
+            *ngIf="patientInsuranceForm.controls?.insuranceNumber?.touched && patientInsuranceForm.controls?.insuranceNumber?.invalid">
+            <ng-container class="" *ngIf="errorControl.insuranceNumber?.errors?.required">
+              <ion-text color="danger" class="error-message">This field is required.</ion-text>
+            </ng-container>
+            <ng-container class="" *ngIf="errorControl.insuranceNumber?.errors?.maxlength">
+              <ion-text color="danger" class="error-message">This should be less than 200 character</ion-text>
+            </ng-container>
+          </ng-container>
+        </ion-col>
+        <ion-col size="12" size-md="8" size-xs="12">
+        </ion-col>
+        <ion-col size="12" size-md="2" size-xs="12">
+          <ion-button color="warning" shape="round" type="submit">Continue</ion-button>
+        </ion-col>
+        <ion-col size="12" size-md="2" size-xs="12">
+          <ion-button color="danger" shape="round" (click)="navigateToHomePage()">Cancle</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <ion-modal [isOpen]="openWarningPopup" class="my-modal-class">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Warning Message</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <p>
+          Please update all fields to proceed
+        </p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <ion-modal [isOpen]="insuranceDropdown" class="my-modal-class">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Select Insurance</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="toggleInsuranceDropdown(false)">Close</ion-button>
+          </ion-buttons>    
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>Currently Selected Insurance - {{patientInsuranceForm.controls.insuranceCompany.value}}</ion-item>
+        <ion-searchbar [(ngModel)]="searchInsuranceString" (ionInput)="searchInsurance()" placeholder="Search"></ion-searchbar>
+        <ion-list>
+          <ion-item class="ion-border" *ngFor="let insurance of availableInsurances">
+            <ion-label (click)="insuranceSelected(insurance)">{{insurance.displayValue}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ng-container>

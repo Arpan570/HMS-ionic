@@ -1,1 +1,147 @@
-Hi, This is Demographics tab
+<patient-summary></patient-summary>
+<ng-container>
+    <form [formGroup]="patientDemographicForm" (ngSubmit)="submitForm()" novalidate>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12" size-md="6" size-xs="12">
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Attendants Name -</ion-label>
+                        <ion-input type="text" formControlName="emergencyContactName"></ion-input>
+                    </ion-item>
+                    <ng-container
+                        *ngIf="patientDemographicForm.controls?.emergencyContactName?.touched && patientDemographicForm.controls?.emergencyContactName?.invalid">
+                        <ng-container class="" *ngIf="errorControl.emergencyContactName?.errors?.required">
+                            <ion-text color="danger" class="error-message">Add attendants Name</ion-text>
+                        </ng-container>
+                    </ng-container>
+                </ion-col>
+                <ion-col size="6" size-md="6" size-xs="12"> <ion-item>
+                        <ion-label position="stacked" color="primary">Mobile Number - </ion-label>
+                        <ion-input type="number" class="form-control" required
+                            formControlName="emergencyContactNumber"></ion-input>
+                    </ion-item>
+                    <ng-container
+                        *ngIf="patientDemographicForm.controls?.emergencyContactNumber?.touched && patientDemographicForm.controls?.emergencyContactNumber?.invalid">
+                        <ng-container class="" *ngIf="errorControl.emergencyContactNumber?.errors?.required">
+                            <ion-text color="danger" class="error-message"> Mobile number is required.</ion-text>
+                        </ng-container>
+                        <ng-container class=""
+                            *ngIf="errorControl.emergencyContactNumber?.errors?.min || errorControl.emergencyContactNumber?.errors?.max">
+                            <ion-text color="danger" class="error-message"> Length should be 10 digits</ion-text>
+                        </ng-container>
+                    </ng-container>
+                </ion-col>
+                <ion-col size="6" size-md="6" size-xs="12">
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Aadhar Number - </ion-label>
+                        <ion-input type="number" class="form-control"
+                            formControlName="emergencyContactAadharNumber"></ion-input>
+                    </ion-item>
+                    <ng-container
+                        *ngIf="patientDemographicForm.controls?.emergencyContactAadharNumber?.touched && patientDemographicForm.controls?.emergencyContactAadharNumber?.invalid">
+                        <ng-container class="" *ngIf="errorControl.emergencyContactAadharNumber?.errors?.required">
+                            <ion-text color="danger" class="error-message">Aadhar number is required.</ion-text>
+                        </ng-container>
+                        <ng-container class=""
+                            *ngIf="errorControl.emergencyContactAadharNumber?.errors?.min || errorControl.emergencyContactAadharNumber?.errors?.max">
+                            <ion-text color="danger" class="error-message">Length should be 12 digits</ion-text>
+                        </ng-container>
+                    </ng-container>
+                </ion-col>
+                <ion-col size="3" size-md="6" size-xs="12">
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Email (Optional) - </ion-label>
+                        <ion-input type="email" class="form-control"
+                            formControlName="emergencyContactEmail"></ion-input>
+                    </ion-item>
+                    <ng-container
+                        *ngIf="patientDemographicForm.controls?.emergencyContactEmail?.touched && patientDemographicForm.controls?.emergencyContactEmail?.invalid">
+                        <ng-container class="error ion-padding"
+                            *ngIf="errorControl.emergencyContactEmail?.errors?.pattern">
+                            <ion-text color="danger" class="error-message"> Enter Valid Email.</ion-text>
+                        </ng-container>
+                    </ng-container>
+                </ion-col>
+                <ion-col size="12" size-md="6" size-xs="12">
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Relation -</ion-label>
+                        <ion-select formControlName="emergencyContactRelation">
+                            <ion-searchbar
+                            [debounce]="1000" (ionInput)="handleInput($event)"
+                            show-clear-button="focus" value="Show on Focus">
+                        </ion-searchbar>
+
+                            <ng-container *ngFor="let relation of relations">
+                                <ion-select-option value="{{relation.name}}">{{relation.value}}</ion-select-option>
+                            </ng-container>
+                        </ion-select>
+                    </ion-item>
+                    <ng-container
+                        *ngIf="patientDemographicForm.controls?.emergencyContactRelation?.touched && patientDemographicForm.controls?.emergencyContactRelation?.invalid">
+                        <ng-container class="" *ngIf="errorControl.emergencyContactRelation?.errors?.required">
+                            <ion-text color="danger" class="error-message">Select a Relation</ion-text>
+                        </ng-container>
+                    </ng-container>
+                </ion-col>
+                <ion-col size="12" size-md="6" size-xs="12">
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Gender -</ion-label>
+                        <ion-select formControlName="emergencyContactGender">
+                            <ng-container *ngFor="let gender of genders">
+                                <ion-select-option value="{{gender.name}}">{{gender.value}}</ion-select-option>
+                            </ng-container>
+                        </ion-select>
+                    </ion-item>
+                    <ng-container
+                        *ngIf="patientDemographicForm.controls?.emergencyContactGender?.touched && patientDemographicForm.controls?.emergencyContactGender?.invalid">
+                        <ng-container class="" *ngIf="errorControl.emergencyContactGender?.errors?.required">
+                            <ion-text color="danger" class="error-message">Select a Gender</ion-text>
+                        </ng-container>
+                    </ng-container>
+                </ion-col>
+
+                <ion-col size="6" size-md="8" size-xs="12">
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Adress - </ion-label>
+                        <ion-input type="text" class="form-control"
+                            formControlName="emergencyContactAddress"></ion-input>
+                    </ion-item>
+                    <ng-container
+                        *ngIf="patientDemographicForm.controls?.emergencyContactAddress?.touched && patientDemographicForm.controls?.emergencyContactAddress?.invalid">
+                        <ng-container class="" *ngIf="errorControl.emergencyContactAddress?.errors?.required">
+                            <ion-text color="danger" class="error-message">Address is required.</ion-text>
+                        </ng-container>
+                        <ng-container class=""
+                            *ngIf="errorControl.emergencyContactAddress?.errors?.min || errorControl.emergencyContactAddress?.errors?.max">
+                            <ion-text color="danger" class="error-message">Length should be 12 digits</ion-text>
+                        </ng-container>
+                    </ng-container>
+                </ion-col>
+                <ion-col size="12" size-md="2" size-xs="12">
+                    <ion-button color="warning" shape="round" type="submit">Continue</ion-button>
+                </ion-col>
+                <ion-col size="12" size-md="2" size-xs="12">
+                    <ion-button color="danger" shape="round" (click)="navigateToHomePage()">Cancle</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+
+    <!-- <ion-modal [isOpen]="openWarningPopup">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title>Warning Message</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button (click)="setOpen(false)">Close</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <p>
+                    Please update all fields to proceed
+                </p>
+            </ion-content>
+        </ng-template>
+    </ion-modal> -->
+</ng-container>

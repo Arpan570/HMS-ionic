@@ -1,12 +1,30 @@
+
 <ion-header>
   <ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-button (click)="navigateToHomePage()">
+      <ion-icon name="home"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>Digital Hospital Management</ion-title>
+  <!-- arpan_comment This name will be dynamic based on the logged in user -->
+  <ion-buttons slot="end">
+    <ion-button (click)="logout()">
+      <ion-icon name="log-out"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+</ion-header>
+
+<!-- <ion-header>
+  <ion-toolbar>
     <ion-title>Digital Hospital Management</ion-title>
-        <!-- arpan_comment This name will be dynamic based on the logged in user -->
+        
     <ion-buttons slot="secondary">
-      <ion-button fill="solid">
+      <ion-button fill="solid" slot="end">
         log-out
         <ion-icon slot="end" name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
